@@ -1,0 +1,75 @@
+**PRÉOCCUPATION 2 : RESET DES DASHBOARDS** 📊
+
+### **LA BONNE APPROCHE : NE JAMAIS RÉINITIALISER !**
+
+**Les dashboards ne doivent JAMAIS revenir à zéro.** Voici pourquoi et comment faire :
+
+---
+
+### **A. Structure des cartes (recommandé)**
+```
+┌─────────────────────────────────────────────────┐
+│  📊 VUE D'ENSEMBLE                              │
+├─────────────────────────────────────────────────┤
+│                                                  │
+│  ┌──────────────┐  ┌──────────────┐            │
+│  │ AUJOURD'HUI  │  │ CETTE SEMAINE│            │
+│  │              │  │              │            │
+│  │   47         │  │   312        │            │
+│  │ passagers    │  │ passagers    │            │
+│  └──────────────┘  └──────────────┘            │
+│                                                  │
+│  ┌──────────────┐  ┌──────────────┐            │
+│  │ CE MOIS      │  │ TOTAL        │            │
+│  │              │  │              │            │
+│  │   1,247      │  │   8,563      │            │
+│  │ passagers    │  │ passagers    │            │
+│  │ +15% vs mois │  │ depuis début │            │
+│  │   dernier    │  │              │            │
+│  └──────────────┘  └──────────────┘            │
+│                                                  │
+│  🔄 Dernière mise à jour : Il y a 2 minutes    │
+└─────────────────────────────────────────────────┘
+Les données sont calculées dynamiquement :
+javascript// Aujourd'hui
+const aujourdhui = await Passagers.count({
+  where: {
+    assurance_id: assurance_id,
+    date_enregistrement: {
+      [Op.gte]: startOfDay(new Date()),
+      [Op.lte]: endOfDay(new Date())
+    }
+  }
+});
+
+// Cette semaine
+const cette_semaine = await Passagers.count({
+  where: {
+    assurance_id: assurance_id,
+    date_enregistrement: {
+      [Op.gte]: startOfWeek(new Date()),
+      [Op.lte]: endOfWeek(new Date())
+    }
+  }
+});
+
+// Ce mois
+const ce_mois = await Passagers.count({
+  where: {
+    assurance_id: assurance_id,
+    date_enregistrement: {
+      [Op.gte]: startOfMonth(new Date()),
+      [Op.lte]: endOfMonth(new Date())
+    }
+  }
+});
+
+// Total
+const total = await Passagers.count({
+  where: { assurance_id: assurance_id }
+});
+```
+
+**Rien ne se réinitialise jamais !** C'est juste des calculs différents. ✅
+
+---

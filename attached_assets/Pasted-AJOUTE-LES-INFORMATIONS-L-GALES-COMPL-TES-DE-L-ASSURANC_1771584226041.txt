@@ -1,0 +1,111 @@
+AJOUTE LES INFORMATIONS LÉGALES COMPLÈTES DE L'ASSURANCE
+
+CONTEXTE :
+Les tickets d'assurance doivent contenir toutes les informations légales requises par le Code CIMA pour être valides.
+
+MODIFICATIONS À FAIRE :
+
+1. BASE DE DONNÉES - Table assurances :
+
+Ajoute ces colonnes :
+
+IDENTITÉ LÉGALE :
+- raison_sociale (VARCHAR 255, ex: "SANLAM ASSURANCES BÉNIN SA")
+- forme_juridique (VARCHAR 100, ex: "Société Anonyme")
+- capital_social (VARCHAR 100, ex: "1 000 000 000 CFA")
+- siege_social (TEXT, adresse complète)
+- telephone (VARCHAR 20)
+- site_web (VARCHAR 255)
+- numero_agrement_cima (VARCHAR 50, IMPORTANT)
+- numero_ifu (VARCHAR 50)
+
+GARANTIES :
+- garantie_deces (VARCHAR 100, ex: "5 000 000 CFA")
+- garantie_invalidite (VARCHAR 100, ex: "3 000 000 CFA")
+- garantie_frais_medicaux (VARCHAR 100, ex: "500 000 CFA")
+- garantie_rapatriement (VARCHAR 100, ex: "1 000 000 CFA")
+- duree_validite (VARCHAR 255, ex: "24 heures à partir du départ")
+- franchise (VARCHAR 100, ex: "0 CFA")
+
+CONTACTS SINISTRES :
+- hotline_sinistres (VARCHAR 20)
+- email_sinistres (VARCHAR 255)
+- email_reclamations (VARCHAR 255)
+- url_declaration_sinistre (VARCHAR 255)
+- url_conditions_generales (VARCHAR 255)
+
+DOCUMENTS & EXCLUSIONS :
+- documents_requis (TEXT)
+- exclusions_principales (TEXT)
+- type_police (VARCHAR 255, ex: "Police collective voyage")
+- souscripteur (VARCHAR 255, ex: "SecureFlow SARL")
+
+2. DASHBOARD ASSURANCE - Section Paramètres :
+
+Crée 4 onglets :
+
+ONGLET 1 - Informations Légales :
+- Tous les champs d'identité légale (raison sociale, forme juridique, etc.)
+- Upload/modification du logo
+
+ONGLET 2 - Garanties & Couverture :
+- Tous les montants de garanties
+- Durée de validité
+- Franchise
+
+ONGLET 3 - Contacts Sinistres :
+- Hotline 24/7
+- Emails (sinistres, réclamations)
+- URLs (déclaration, conditions générales)
+
+ONGLET 4 - Documents & Exclusions :
+- Zone de texte multiligne pour documents requis
+- Zone de texte multiligne pour exclusions principales
+
+3. GÉNÉRATION DU TICKET :
+
+Modifie la génération du ticket pour inclure TOUTES ces informations :
+
+SECTION 1 - En-tête :
+- Logo de l'assurance
+- Raison sociale
+- Siège social (adresse)
+- Téléphone
+- N° Agrément CIMA
+
+SECTION 2 - Informations passager :
+[Déjà existant]
+
+SECTION 3 - Garanties :
+- Liste des 4 garanties avec montants
+- Durée de validité
+- Franchise
+
+SECTION 4 - Contacts urgence :
+- Hotline 24/7
+- Email sinistres
+- URL déclaration
+- Documents à présenter
+
+SECTION 5 - Mentions légales :
+- Type de police
+- Souscripteur (SecureFlow)
+- URL conditions générales
+- Email réclamations
+
+SECTION 6 - Footer :
+- "Powered by SecureFlow | www.secureflow.bj"
+
+4. FORMULAIRE SUPER ADMIN :
+
+Quand je crée une assurance, je peux remplir tous ces champs OU les laisser vides.
+L'assurance pourra les remplir elle-même plus tard dans ses paramètres.
+
+5. VALIDATION :
+
+Si une assurance n'a pas rempli ses informations légales :
+- Afficher un message d'avertissement dans son dashboard
+- Le ticket sera généré quand même mais avec des champs vides (elle doit les remplir)
+
+Implémente tout cela maintenant.
+

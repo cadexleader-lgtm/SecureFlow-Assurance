@@ -1,0 +1,284 @@
+INFORMATIONS LÉGALES OBLIGATOIRES SUR LE TICKET D'ASSURANCE 🎫 A Remettre au passager et a afficher sur l’interfasse des passager lorsquils scan le code QR il doi voir les information de lassurance et les truc quil doivent voir egalement quon a avais déjà mis
+SECTION 1 — IDENTITÉ DE L'ASSURANCE (Obligatoire légalement)
+┌─────────────────────────────────────────┐
+│  [LOGO ASSURANCE]                       │
+│                                         │
+│  SANLAM ASSURANCES BÉNIN               │
+│  Société Anonyme au capital de XXX CFA │
+│  Siège social : Avenue Jean-Paul II,   │
+│  Cotonou, Bénin                        │
+│  Tel : +229 21 XX XX XX                │
+│  Email : contact@sanlam.bj             │
+│  Site web : www.sanlam.bj              │
+│                                         │
+│  Agrément CIMA N° XXX-XX-XXX          │
+│  N° IFU : XXXXXXXXXX                   │
+└─────────────────────────────────────────┘
+Champs nécessaires dans la base :
+sql
+ALTER TABLE assurances ADD COLUMN:
+- raison_sociale (texte, ex: "SANLAM ASSURANCES BÉNIN SA")
+- forme_juridique (texte, ex: "Société Anonyme")
+- capital_social (texte, ex: "1 000 000 000 CFA")
+- siege_social (texte, adresse complète)
+- telephone (texte)
+- email (texte) [existe déjà]
+- site_web (texte)
+- numero_agrement_cima (texte, IMPORTANT !)
+- numero_ifu (texte, identifiant fiscal)
+```
+
+---
+
+### **SECTION 2 — CONDITIONS DE COUVERTURE** (Essentiel)
+```
+┌─────────────────────────────────────────┐
+│  GARANTIES COUVERTES :                  │
+│  ✓ Décès accidentel : 5 000 000 CFA    │
+│  ✓ Invalidité permanente : 3 000 000   │
+│  ✓ Frais médicaux : 500 000 CFA        │
+│  ✓ Rapatriement : 1 000 000 CFA        │
+│                                         │
+│  Durée de validité : 24 heures         │
+│  Franchise : 0 CFA                      │
+└─────────────────────────────────────────┘
+Champs nécessaires :
+sql
+ALTER TABLE assurances ADD COLUMN:
+- garantie_deces (texte, ex: "5 000 000 CFA")
+- garantie_invalidite (texte, ex: "3 000 000 CFA")
+- garantie_frais_medicaux (texte, ex: "500 000 CFA")
+- garantie_rapatriement (texte, ex: "1 000 000 CFA")
+- duree_validite (texte, ex: "24 heures à partir du départ")
+- franchise (texte, ex: "0 CFA" ou "50 000 CFA")
+```
+
+---
+
+### **SECTION 3 — CONTACTS EN CAS DE SINISTRE** (CRUCIAL !)
+```
+┌─────────────────────────────────────────┐
+│  EN CAS D'ACCIDENT :                    │
+│  📞 Hotline 24/7 : +229 96 XX XX XX    │
+│  📧 sinistres@sanlam.bj                │
+│  🌐 Déclaration en ligne :             │
+│     www.sanlam.bj/sinistres            │
+│                                         │
+│  Documents à fournir :                  │
+│  • Ce ticket d'assurance               │
+│  • Pièce d'identité                    │
+│  • Certificat médical (si blessure)    │
+└─────────────────────────────────────────┘
+Champs nécessaires :
+sql
+ALTER TABLE assurances ADD COLUMN:
+- hotline_sinistres (texte, numéro 24/7)
+- email_sinistres (texte)
+- url_declaration_sinistre (texte, lien web)
+- documents_requis (texte long, liste)
+```
+
+---
+
+### **SECTION 4 — MENTIONS LÉGALES** (Obligatoire CIMA)
+```
+┌─────────────────────────────────────────┐
+│  MENTIONS LÉGALES :                     │
+│  Police d'assurance collective voyage   │
+│  Souscrite par SecureFlow SARL auprès  │
+│  de Sanlam Assurances Bénin            │
+│                                         │
+│  Régie par le Code CIMA                │
+│  Réclamations : reclamations@sanlam.bj │
+│                                         │
+│  Exclusions principales : voir          │
+│  conditions générales sur               │
+│  www.sanlam.bj/conditions-transport    │
+└─────────────────────────────────────────┘
+Champs nécessaires :
+sql
+ALTER TABLE assurances ADD COLUMN:
+- type_police (texte, ex: "Police collective voyage")
+- souscripteur (texte, ex: "SecureFlow SARL")
+- email_reclamations (texte)
+- url_conditions_generales (texte, lien vers PDF)
+- exclusions_principales (texte long)
+```
+
+---
+
+## **LE FORMULAIRE COMPLET DANS LE DASHBOARD ASSURANCE**
+
+Quand l'assurance se connecte à son dashboard, section **"Paramètres"** :
+
+### **ONGLET 1 : Informations Légales**
+```
+┌─────────────────────────────────────────────────┐
+│  📋 INFORMATIONS DE L'ASSURANCE                 │
+├─────────────────────────────────────────────────┤
+│  Logo actuel : [miniature]                      │
+│  [Bouton : Modifier le logo]                    │
+│                                                  │
+│  Raison sociale : [__________________________]  │
+│  (ex: SANLAM ASSURANCES BÉNIN SA)              │
+│                                                  │
+│  Forme juridique : [__________________________] │
+│  (ex: Société Anonyme)                          │
+│                                                  │
+│  Capital social : [__________________________]  │
+│  (ex: 1 000 000 000 CFA)                       │
+│                                                  │
+│  Siège social : [____________________________]  │
+│  [____________________________]                  │
+│  (Adresse complète)                             │
+│                                                  │
+│  Téléphone : [__________________________]       │
+│  Email : [__________________________]           │
+│  Site web : [__________________________]        │
+│                                                  │
+│  N° Agrément CIMA : [__________________________]│
+│  N° IFU : [__________________________]          │
+│                                                  │
+│  [Bouton : Enregistrer]                         │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+### **ONGLET 2 : Garanties & Couverture**
+```
+┌─────────────────────────────────────────────────┐
+│  💰 GARANTIES COUVERTES                         │
+├─────────────────────────────────────────────────┤
+│  Décès accidentel : [___________] CFA          │
+│  Invalidité permanente : [___________] CFA      │
+│  Frais médicaux : [___________] CFA            │
+│  Rapatriement : [___________] CFA              │
+│                                                  │
+│  Durée de validité : [________________________] │
+│  (ex: 24 heures à partir du départ)            │
+│                                                  │
+│  Franchise : [___________] CFA                  │
+│                                                  │
+│  [Bouton : Enregistrer]                         │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+### **ONGLET 3 : Contacts Sinistres**
+```
+┌─────────────────────────────────────────────────┐
+│  📞 CONTACTS EN CAS DE SINISTRE                 │
+├─────────────────────────────────────────────────┤
+│  Hotline 24/7 : [__________________________]   │
+│  Email sinistres : [__________________________] │
+│  Email réclamations : [_______________________] │
+│                                                  │
+│  URL déclaration en ligne :                     │
+│  [__________________________]                    │
+│                                                  │
+│  URL conditions générales :                     │
+│  [__________________________]                    │
+│                                                  │
+│  [Bouton : Enregistrer]                         │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+### **ONGLET 4 : Documents requis & Exclusions**
+```
+┌─────────────────────────────────────────────────┐
+│  📄 DOCUMENTS REQUIS EN CAS DE SINISTRE         │
+├─────────────────────────────────────────────────┤
+│  [Zone de texte multiligne]                     │
+│  Exemple :                                       │
+│  • Ce ticket d'assurance                        │
+│  • Pièce d'identité                             │
+│  • Certificat médical (si blessure)             │
+│  • Procès-verbal de police (si décès)           │
+│                                                  │
+│  ⚠️ EXCLUSIONS PRINCIPALES                      │
+│  [Zone de texte multiligne]                     │
+│  Exemple :                                       │
+│  • État d'ivresse ou usage de stupéfiants       │
+│  • Suicide dans les 2 premières années          │
+│  • Guerres, émeutes, actes de terrorisme        │
+│  • Sports extrêmes                              │
+│                                                  │
+│  [Bouton : Enregistrer]                         │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## **LE NOUVEAU TICKET AVEC TOUTES LES INFOS**
+
+Voici à quoi ressemblera le ticket final :
+```
+╔═══════════════════════════════════════════════╗
+║           CERTIFICAT D'ASSURANCE VOYAGE        ║
+╠═══════════════════════════════════════════════╣
+║      Et celle de secure flow a un endroit que tu peux décider                                          ║
+║  [LOGO SANLAM]        [QR CODE]               ║
+║                                                ║
+║  SANLAM ASSURANCES BÉNIN SA                   ║
+║  Siège : Av. Jean-Paul II, Cotonou           ║
+║  Tel : +229 21 XX XX XX                       ║
+║  Agrément CIMA : XXX-XX-XXX                   ║
+║                                                ║
+╠═══════════════════════════════════════════════╣
+║  PASSAGER ASSURÉ                              ║
+║  ─────────────────────────────────────────    ║
+║  Nom : KOFFI Mensah Aloïs                     ║
+║  Téléphone : +229 96 XX XX XX                 ║
+║  N° Police : SF-2025-00847                    ║
+║                                                ║
+║  VOYAGE                                        ║
+║  ─────────────────────────────────────────    ║
+║  Compagnie : Confort Lines                    ║
+║  Bus N° : CL-016                              ║
+║  Destination : Parakou     
+                   ║Destinantion : cotonou
+║  Date départ : 21/02/2025 à 08h00            ║
+║                                                ║
+╠═══════════════════════════════════════════════╣
+║  GARANTIES COUVERTES                          ║
+║  ─────────────────────────────────────────    ║
+║  ✓ Décès accidentel : 5 000 000 CFA          ║
+║  ✓ Invalidité permanente : 3 000 000 CFA     ║
+║  ✓ Frais médicaux : 500 000 CFA              ║
+║  ✓ Rapatriement : 1 000 000 CFA              ║
+║                                                ║
+║  Validité : 24h à partir du départ            ║
+║  Franchise : 0 CFA                            ║
+║                                                ║
+╠═══════════════════════════════════════════════╣
+║  🚨 EN CAS D'ACCIDENT                         ║
+║  ─────────────────────────────────────────    ║
+║  Hotline 24/7 : +229 96 XX XX XX             ║
+║  Email : sinistres@sanlam.bj                  ║
+║  Déclaration en ligne :                       ║
+║  www.sanlam.bj/sinistres                      ║
+║                                                ║
+║  Documents à présenter :                      ║
+║  • Ce ticket + QR code                        ║
+║  • Pièce d'identité                           ║
+║  • Certificat médical (si nécessaire)         ║
+║                                                ║
+╠═══════════════════════════════════════════════╣
+║  MENTIONS LÉGALES                             ║
+║  ─────────────────────────────────────────    ║
+║  Police collective voyage souscrite par       ║
+║  SecureFlow SARL. Régie par le Code CIMA.    ║
+║  Conditions complètes :                       ║
+║  www.sanlam.bj/conditions-transport           ║
+║                                                ║
+║  Réclamations : reclamations@sanlam.bj        ║
+║                                                ║
+╚═══════════════════════════════════════════════╝
+   Powered by SecureFlow | https secureflow.solutions
+```
+
+---

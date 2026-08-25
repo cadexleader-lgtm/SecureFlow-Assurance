@@ -1,0 +1,177 @@
+## **PROMPT COMPLET POUR REPLIT**
+```
+AJOUTE L'EXPIRATION AUTOMATIQUE DES ASSURANCES + DASHBOARDS TEMPORELS
+
+═══════════════════════════════════════════════════════════════════
+
+PARTIE 1 : EXPIRATION AUTOMATIQUE DES ASSURANCES
+
+1. BASE DE DONNÉES - Table passagers :
+
+Ajoute ces colonnes :
+- date_expiration (DATETIME, calculée automatiquement)
+- statut_assurance (ENUM: 'actif', 'expire', 'sinistre_en_cours', 'indemnise')
+
+2. BASE DE DONNÉES - Table assurances :
+
+Ajoute cette colonne :
+- duree_validite_heures (INTEGER, default 24)
+
+L'assurance peut modifier cette valeur dans ses paramètres (24h, 48h, 72h, etc.)
+
+3. CALCUL AUTOMATIQUE À L'ENREGISTREMENT :
+
+Quand un agent enregistre un passager :
+```javascript
+const duree_validite_heures = assurance.duree_validite_heures;
+const date_enregistrement = new Date();
+const date_expiration = new Date(date_enregistrement);
+date_expiration.setHours(date_expiration.getHours() + duree_validite_heures);
+
+passager.date_enregistrement = date_enregistrement;
+passager.date_expiration = date_expiration;
+passager.statut_assurance = "actif";
+```
+
+4. CRON JOB - Vérification automatique :
+
+Crée un fichier /cron/check_expirations.js qui s'exécute toutes les heures :
+```javascript
+const now = new Date();
+const passagers_expires = await Passagers.findAll({
+  where: {
+    statut_assurance: 'actif',
+    date_expiration: { [Op.lt]: now }
+  }
+});
+
+for (const passager of passagers_expires) {
+  await passager.update({ statut_assurance: 'expire' });
+}
+```
+
+Dans server.js, ajoute :
+```javascript
+const cron = require('node-cron');
+cron.schedule('0 * * * *', () => {
+  require('./cron/check_expirations');
+});
+```
+
+5. PAGE VÉRIFICATION QR CODE :
+
+Quand on scanne un QR code, affiche :
+
+SI ACTIF :
+- ✅ "ASSURANCE ACTIVE"
+- "Valide jusqu'au : [date_expiration]"
+- "Temps restant : [calcul en temps réel]"
+- Toutes les infos du passager
+- Garanties couvertes
+- Contacts urgence
+
+SI EXPIRÉ :
+- ⚠️ "ASSURANCE EXPIRÉE"
+- "Expirée le : [date_expiration]"
+- "Depuis : [X jours]"
+- "⚠️ Ce passager n'est plus couvert"
+
+Fonction pour calculer temps restant :
+```javascript
+const diff = date_expiration - new Date();
+if (diff <= 0) return "Expiré";
+const heures = Math.floor(diff / (1000 * 60 * 60));
+const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+return `${heures}h ${minutes}min`;
+```
+
+═══════════════════════════════════════════════════════════════════
+
+PARTIE 2 : DASHBOARDS TEMPORELS (NE JAMAIS RÉINITIALISER)
+
+1. CARTES VUE D'ENSEMBLE :
+
+Dans tous les dashboards (Super Admin, Assurance, Compagnie), affiche 4 cartes :
+
+CARTE 1 - Aujourd'hui :
+- Nombre de passagers enregistrés aujourd'hui
+- Calcul : WHERE date_enregistrement >= début_jour AND <= fin_jour
+
+CARTE 2 - Cette semaine :
+- Nombre de passagers cette semaine
+- Calcul : WHERE date_enregistrement >= début_semaine AND <= fin_semaine
+
+CARTE 3 - Ce mois :
+- Nombre de passagers ce mois
+- Comparaison avec mois dernier (en % et flèche)
+- Calcul : WHERE date_enregistrement >= début_mois AND <= fin_mois
+
+CARTE 4 - Total :
+- Nombre total de passagers depuis le début
+- "depuis [date_creation_compte]"
+- Calcul : COUNT(*) sans filtre temporel
+
+2. TABLEAU DES PASSAGERS AVEC FILTRES :
+
+Ajoute des filtres en haut du tableau :
+
+Filtre Période :
+- Aujourd'hui
+- Cette semaine
+- Ce mois
+- Mois dernier
+- Année en cours
+- Tout
+
+Filtre Statut :
+- Tous
+- Actifs uniquement
+- Expirés uniquement
+- Sinistres en cours
+
+Filtre Compagnie :
+- Toutes
+- [Liste des compagnies]
+
+Ces filtres modifient la requête SQL mais NE SUPPRIMENT JAMAIS de données.
+
+3. COLONNE STATUT DANS LES TABLEAUX :
+
+Affiche le statut avec icône + temps restant si actif :
+- 🟢 Actif (18h 32min)
+- ⚪ Expiré
+- 🔴 Sinistre en cours
+- ✅ Indemnisé
+
+4. SECTION HISTORIQUE MENSUEL :
+
+Crée une section séparée "Historique Mensuel" avec tableau :
+
+Colonnes :
+- Mois (ex: "Février 2025")
+- Nombre de passagers
+- Revenus générés
+- Bouton "Télécharger PDF"
+
+Chaque ligne = résumé d'un mois complet
+Les lignes ne sont JAMAIS supprimées
+
+5. GRAPHIQUES :
+
+Tous les graphiques utilisent des données réelles sans réinitialisation :
+
+- Graphique courbe "Évolution" : affiche les 6 derniers mois
+- Graphique barres "Top 5" : calcule sur la période sélectionnée (aujourd'hui/semaine/mois)
+- Graphique camembert : toujours basé sur des % du total actuel
+
+═══════════════════════════════════════════════════════════════════
+
+IMPORTANT :
+
+- Les données ne sont JAMAIS supprimées
+- Les dashboards calculent dynamiquement selon la période sélectionnée
+- Le statut "expire" est automatique via cron job
+- La page QR code vérifie le statut en temps réel
+- Ajoute "Dernière mise à jour : il y a X minutes" en bas des dashboards
+
+Implémente tout cela maintenant, étape par étape.

@@ -1,0 +1,65 @@
+Voici à quoi ressemblera le ticket final :
+```
+╔═══════════════════════════════════════════════╗
+║           CERTIFICAT D'ASSURANCE VOYAGE        ║
+╠═══════════════════════════════════════════════╣
+║      Et celle de secure flow a un endroit que tu peux décider                                          ║
+║  [LOGO SANLAM]        [QR CODE]               ║
+║                                                ║
+║  SANLAM ASSURANCES BÉNIN SA                   ║
+║  Siège : Av. Jean-Paul II, Cotonou           ║
+║  Tel : +229 21 XX XX XX                       ║
+║  Agrément CIMA : XXX-XX-XXX                   ║
+║                                                ║
+╠═══════════════════════════════════════════════╣
+║  PASSAGER ASSURÉ                              ║
+║  ─────────────────────────────────────────    ║
+║  Nom : KOFFI Mensah Aloïs                     ║
+║  Téléphone : +229 96 XX XX XX                 ║
+║  N° Police : SF-2025-00847                    ║
+║                                                ║
+║  VOYAGE                                        ║
+║  ─────────────────────────────────────────    ║
+║  Compagnie : Confort Lines                    ║
+║  Bus N° : CL-016                              ║
+║  Destination : Parakou     
+                   ║Destinantion : cotonou
+║  Date départ : 21/02/2025 à 08h00            ║
+║                                                ║
+╠═══════════════════════════════════════════════╣
+║  GARANTIES COUVERTES                          ║
+║  ─────────────────────────────────────────    ║
+║  ✓ Décès accidentel : 5 000 000 CFA          ║
+║  ✓ Invalidité permanente : 3 000 000 CFA     ║
+║  ✓ Frais médicaux : 500 000 CFA              ║
+║  ✓ Rapatriement : 1 000 000 CFA              ║
+║                                                ║
+║  Validité : 24h à partir du départ            ║
+║  Franchise : 0 CFA                            ║
+║                                                ║
+╠═══════════════════════════════════════════════╣
+║  🚨 EN CAS D'ACCIDENT                         ║
+║  ─────────────────────────────────────────    ║
+║  Hotline 24/7 : +229 96 XX XX XX             ║
+║  Email : sinistres@sanlam.bj                  ║
+║  Déclaration en ligne :                       ║
+║  www.sanlam.bj/sinistres                      ║
+║                                                ║
+║  Documents à présenter :                      ║
+║  • Ce ticket + QR code                        ║
+║  • Pièce d'identité                           ║
+║  • Certificat médical (si nécessaire)         ║
+║                                                ║
+╠═══════════════════════════════════════════════╣
+║  MENTIONS LÉGALES                             ║
+║  ─────────────────────────────────────────    ║
+║  Police collective voyage souscrite par       ║
+║  SecureFlow SARL. Régie par le Code CIMA.    ║
+║  Conditions complètes :                       ║
+║  www.sanlam.bj/conditions-transport           ║
+║                                                ║
+║  Réclamations : reclamations@sanlam.bj        ║
+║                                                ║
+╚═══════════════════════════════════════════════╝
+   Powered by SecureFlow | https secureflow.solutions
+```

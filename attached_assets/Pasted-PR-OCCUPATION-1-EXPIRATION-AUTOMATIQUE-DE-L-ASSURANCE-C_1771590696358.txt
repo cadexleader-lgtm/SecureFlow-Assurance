@@ -1,0 +1,66 @@
+PRÉOCCUPATION 1 : EXPIRATION AUTOMATIQUE DE L'ASSURANCE ⏰
+Comment ça doit fonctionner :
+Passager enregistré le 21/02/2025 à 08h00
+    ↓
+Durée validité = 24 heures (définie par l'assurance)
+    ↓
+Assurance expire le 22/02/2025 à 08h00
+    ↓
+Statut change automatiquement : "Actif" → "Expiré"
+
+SOLUTION TECHNIQUE
+A. Dans la table passagers, ajoute :
+sqlALTER TABLE passagers ADD COLUMN:
+- date_expiration (DATETIME, calculée automatiquement)
+- statut_assurance (ENUM: 'actif', 'expire', 'sinistre_en_cours', 'indemnise')
+B. Calcul automatique à l'enregistrement :
+javascript// Quand l'agent enregistre un passager
+const duree_validite_heures = assurance.duree_validite_heures; // ex: 24
+const date_enregistrement = new Date();
+const date_expiration = new Date(date_enregistrement);
+date_expiration.setHours(date_expiration.getHours() + duree_validite_heures);
+
+// Insère dans la base
+passagers.create({
+  nom: "...",
+  date_enregistrement: date_enregistrement,
+  date_expiration: date_expiration,
+  statut_assurance: "actif"
+});
+
+C. Vérification automatique du statut (3 méthodes)
+MÉTHODE 1 : Cron Job (Recommandé) ⏱️
+Un script qui tourne toutes les heures et vérifie :
+javascript// Script : /cron/check_expirations.js
+// S'exécute toutes les heures
+
+const now = new Date();
+
+// Trouve tous les passagers actifs dont l'assurance a expiré
+const passagers_expires = await Passagers.findAll({
+  where: {
+    statut_assurance: 'actif',
+    date_expiration: { [Op.lt]: now } // date_expiration < maintenant
+  }
+});
+
+// Change leur statut
+for (const passager of passagers_expires) {
+  await passager.update({ statut_assurance: 'expire' });
+  
+  // Optionnel : Envoie un email à l'assurance
+  // "Le passager X n'est plus couvert"
+}
+
+console.log(`${passagers_expires.length} assurances expirées`);
+Comment mettre en place :
+bash# Dans Replit, utilise node-cron
+npm install node-cron
+
+# Dans ton fichier principal (server.js)
+const cron = require('node-cron');
+
+// Exécute toutes les heures
+cron.schedule('0 * * * *', () => {
+  require('./cron/check_expirations');
+});
